@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, Sun } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { NAV_LINKS, BRAND_NAME, PHONE_NUMBER } from '../../constants';
 import Button from '../ui/Button';
 
@@ -30,11 +30,13 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="bg-gradient-to-br from-primary to-orange-400 p-2 rounded-lg text-white group-hover:rotate-12 transition-transform">
-             <Sun size={28} fill="white" />
-          </div>
-          <span className="text-xl md:text-2xl font-extrabold text-secondary tracking-tight">
+        <Link to="/" className="flex items-center gap-0.5 group">
+          <img 
+            src="https://storage.googleapis.com/client_files/solarwatt_energies/solarwat%20energy%20logo.png" 
+            alt={`${BRAND_NAME} Logo`}
+            className="h-auto w-20 mr-[10px] -my-2 -ml-2 group-hover:opacity-80 transition-opacity"
+          />
+          <span className="text-base md:text-lg font-extrabold text-primary tracking-tight -ml-6">
             {BRAND_NAME}
           </span>
         </Link>

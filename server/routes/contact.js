@@ -57,16 +57,23 @@ router.post('/submit', async (req, res) => {
   }
 });
 
-// GET /api/contact - Get all contacts (optional, for admin use)
+// GET /api/contact - Get all contacts (protected, for admin use)
 router.get('/', async (req, res) => {
   try {
+    // Check authentication
+    if (!req.session || !req.session.isAuthenticated) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      });
+    }
+
     const db = getDatabase();
     const collection = db.collection('contacts');
     
     const contacts = await collection
       .find({})
       .sort({ createdAt: -1 })
-      .limit(100)
       .toArray();
 
     res.json({

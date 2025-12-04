@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { Benefit, FAQItem, NavItem, ROIItem, ServiceItem, Testimonial } from './types';
 
-export const BRAND_NAME = "SolarWatt Energy";
+export const BRAND_NAME = "SOLARWAT ENERGY";
 export const PHONE_NUMBER = "+91 98765 43210";
 export const EMAIL_ADDRESS = "hello@solarwattenergy.com";
 export const ADDRESS = "123 Solar Park, Industrial Area, Mumbai, India";

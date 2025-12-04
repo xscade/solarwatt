@@ -1,10 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import session from 'express-session';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { connectToMongoDB } from './db/connection.js';
 import contactRoutes from './routes/contact.js';
+import authRoutes, { initializeAdmin } from './routes/auth.js';
+import { requireAuth } from './middleware/auth.js';
 
 // Load environment variables
 dotenv.config({ path: '.env.local' });
@@ -17,8 +20,23 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'solarwatt-secret-key-change-in-production',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: isProduction, // Use secure cookies in production (HTTPS)
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true // Allow cookies
+}));
 app.use(express.json());
 
 // API Routes (must be before static file serving)
@@ -26,6 +44,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
+app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Serve static files
@@ -51,7 +70,10 @@ app.use((req, res, next) => {
 
 // Connect to MongoDB and start server
 connectToMongoDB()
-  .then(() => {
+  .then(async () => {
+    // Initialize admin credentials after DB connection
+    await initializeAdmin();
+    
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
       console.log(`📊 MongoDB connected successfully`);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sun, Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
 import { BRAND_NAME, ADDRESS, PHONE_NUMBER, EMAIL_ADDRESS, NAV_LINKS } from '../../constants';
 
 const Footer: React.FC = () => {
@@ -10,11 +10,13 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Column */}
           <div>
-            <div className="flex items-center gap-2 mb-6">
-              <div className="bg-white p-1.5 rounded-lg">
-                <Sun size={24} className="text-primary" fill="#FA762B" />
-              </div>
-              <span className="text-2xl font-extrabold tracking-tight">{BRAND_NAME}</span>
+            <div className="flex items-center gap-0.5 mb-6">
+              <img 
+                src="https://storage.googleapis.com/client_files/solarwatt_energies/solarwat%20energy%20logo.png" 
+                alt={`${BRAND_NAME} Logo`}
+                className="h-auto w-20 mr-[10px] -my-6 -ml-6 group-hover:opacity-80 transition-opacity"
+              />
+              <span className="text-base md:text-lg font-extrabold text-primary tracking-tight -ml-6">{BRAND_NAME}</span>
             </div>
             <p className="text-blue-100 mb-6 leading-relaxed">
               Empowering homes and businesses with premium, high-efficiency solar solutions. Join the renewable revolution today.

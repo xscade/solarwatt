@@ -8,6 +8,8 @@ import Services from './pages/Services';
 import Products from './pages/Products';
 import Calculator from './pages/Calculator';
 import Contact from './pages/Contact';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 // Service Pages
 import ResidentialSolar from './pages/ResidentialSolar';
@@ -49,35 +51,48 @@ const FloatingCTA = () => (
   </div>
 );
 
+const AppContent = () => {
+  const location = useLocation();
+  const isAdminPage = location.pathname === '/login' || location.pathname === '/dashboard';
+
+  return (
+    <div className="flex flex-col min-h-screen font-sans text-dark bg-white">
+      {!isAdminPage && <Header />}
+      <main className={isAdminPage ? 'flex-grow' : 'flex-grow pt-[80px]'}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          
+          {/* Services Index */}
+          <Route path="/services" element={<Services />} />
+          
+          {/* Explicit Service Routes */}
+          <Route path="/services/residential-solar" element={<ResidentialSolar />} />
+          <Route path="/services/commercial-solutions" element={<CommercialSolutions />} />
+          <Route path="/services/industrial-projects" element={<IndustrialProjects />} />
+          <Route path="/services/maintenance-amc" element={<MaintenanceAmc />} />
+          <Route path="/services/shadow-analysis" element={<ShadowAnalysis />} />
+          
+          <Route path="/calculator" element={<Calculator />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/contact" element={<Contact />} />
+          
+          {/* Admin Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </main>
+      {!isAdminPage && <Footer />}
+      {!isAdminPage && <FloatingCTA />}
+    </div>
+  );
+};
+
 function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen font-sans text-dark bg-white">
-        <Header />
-        <main className="flex-grow pt-[80px]">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            
-            {/* Services Index */}
-            <Route path="/services" element={<Services />} />
-            
-            {/* Explicit Service Routes */}
-            <Route path="/services/residential-solar" element={<ResidentialSolar />} />
-            <Route path="/services/commercial-solutions" element={<CommercialSolutions />} />
-            <Route path="/services/industrial-projects" element={<IndustrialProjects />} />
-            <Route path="/services/maintenance-amc" element={<MaintenanceAmc />} />
-            <Route path="/services/shadow-analysis" element={<ShadowAnalysis />} />
-            
-            <Route path="/calculator" element={<Calculator />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </main>
-        <Footer />
-        <FloatingCTA />
-      </div>
+      <AppContent />
     </Router>
   );
 }
