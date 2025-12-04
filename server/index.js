@@ -29,37 +29,25 @@ app.get('/api/health', (req, res) => {
 app.use('/api/contact', contactRoutes);
 
 // Serve static files
-if (isProduction) {
-  // Production: Serve built files from dist
-  const distPath = join(__dirname, '../dist');
-  app.use(express.static(distPath));
-  
-  // Serve index.html for all non-API routes (for client-side routing)
-  // Express 5 requires a different syntax for catch-all routes
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    res.sendFile(join(distPath, 'index.html'));
-  });
-} else {
-  // Development: Serve source files and built files
-  const rootPath = join(__dirname, '..');
-  
-  // Serve built JS files from dist
-  app.use('/dist', express.static(join(rootPath, 'dist')));
-  
-  // Serve static assets (CSS, images, etc.)
-  app.use(express.static(rootPath));
-  
-  // Serve index.html for all non-API routes
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    res.sendFile(join(rootPath, 'index.html'));
-  });
-}
+const distPath = join(__dirname, '../dist');
+const rootPath = join(__dirname, '..');
+
+// Always serve static files from dist (for both dev and production)
+// This ensures index.js is available at /index.js
+app.use(express.static(distPath));
+
+// Serve index.html for all non-API routes (for client-side routing)
+// Express 5 requires a different syntax for catch-all routes
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    return next();
+  }
+  // Serve index.html from dist in production, or from root in development
+  const htmlPath = isProduction 
+    ? join(distPath, 'index.html')
+    : join(rootPath, 'index.html');
+  res.sendFile(htmlPath);
+});
 
 // Connect to MongoDB and start server
 connectToMongoDB()
