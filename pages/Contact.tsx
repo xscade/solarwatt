@@ -15,6 +15,7 @@ const Contact: React.FC = () => {
     setError(null);
 
     try {
+      // Express serves everything, so we can use relative paths
       const response = await fetch('/api/contact/submit', {
         method: 'POST',
         headers: {
@@ -23,41 +24,17 @@ const Contact: React.FC = () => {
         body: JSON.stringify(formState),
       });
 
-      // Handle network errors
-      if (!response) {
-        throw new Error('Network error. Please check your connection and try again.');
-      }
-
-      // Check if response is actually JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const text = await response.text();
-        console.error('Non-JSON response:', text);
-        
-        // Check for common error cases
-        if (response.status === 404) {
-          throw new Error('API endpoint not found. Please contact support.');
-        } else if (response.status === 500) {
-          throw new Error('Server error. Please try again later or contact support.');
-        }
-        
-        throw new Error(`Server error: ${text.substring(0, 100)}`);
-      }
-
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || `Server error (${response.status}). Please try again.`);
+        throw new Error(data.message || 'Failed to submit form');
       }
 
       setIsSuccess(true);
       setFormState({ name: '', email: '', phone: '', bill: '' });
     } catch (err) {
-      const errorMessage = err instanceof Error 
-        ? err.message 
-        : 'An unexpected error occurred. Please try again.';
-      setError(errorMessage);
-      console.error('Form submission error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
+      console.error('Contact form error:', err);
     } finally {
       setIsSubmitting(false);
     }

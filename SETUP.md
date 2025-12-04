@@ -1,119 +1,109 @@
-# MongoDB Integration Setup
+# MongoDB Atlas Setup Guide
 
-This project now includes a backend server that stores contact form submissions in MongoDB.
+This guide will help you connect your SolarWatt Energy application to MongoDB Atlas.
 
-## Setup Instructions
+## Prerequisites
 
-### 1. Install Dependencies
+- A MongoDB Atlas account (free tier available at https://www.mongodb.com/cloud/atlas)
+- Node.js installed on your machine
 
-```bash
-npm install
-```
+## Step 1: Create MongoDB Atlas Cluster
 
-This will install:
-- Express (backend server)
-- MongoDB (database driver)
-- CORS (cross-origin resource sharing)
-- dotenv (environment variables)
-- concurrently (run frontend and backend together)
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and sign up/login
+2. Create a new cluster (Free tier M0 is sufficient for development)
+3. Wait for the cluster to be created (takes a few minutes)
 
-### 2. Configure Environment Variables
+## Step 2: Configure Database Access
 
-Create a `.env` file in the root directory:
+1. Go to **Database Access** in the left sidebar
+2. Click **Add New Database User**
+3. Choose **Password** authentication
+4. Create a username and password (save these securely!)
+5. Set user privileges to **Read and write to any database**
+6. Click **Add User**
 
-```bash
-# MongoDB Connection
-MONGODB_URI=your_mongodb_connection_string_here
+## Step 3: Configure Network Access
 
-# Server Configuration (optional)
-PORT=3001
-FRONTEND_URL=http://localhost:3000
-```
+1. Go to **Network Access** in the left sidebar
+2. Click **Add IP Address**
+3. For development, click **Allow Access from Anywhere** (0.0.0.0/0)
+   - ⚠️ For production, restrict to specific IPs
+4. Click **Confirm**
 
-Replace `your_mongodb_connection_string_here` with your actual MongoDB connection string.
+## Step 4: Get Your Connection String
 
-**Example MongoDB URI format:**
-```
-mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
-```
+1. Go to **Database** in the left sidebar
+2. Click **Connect** on your cluster
+3. Choose **Connect your application**
+4. Select **Node.js** as the driver
+5. Copy the connection string (looks like: `mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority`)
 
-or for local MongoDB:
-```
-mongodb://localhost:27017/solarwatt
-```
+## Step 5: Configure Environment Variables
 
-### 3. Run the Application
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
 
-#### Option 1: Run Frontend and Backend Together (Recommended)
-```bash
-npm run dev:all
-```
+2. Open `.env` and replace the placeholder with your actual connection string:
+   ```env
+   MONGODB_URI=mongodb+srv://yourusername:yourpassword@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+   MONGODB_DB_NAME=solarwatt
+   PORT=3001
+   VITE_API_URL=http://localhost:3001
+   ```
 
-This will start:
-- Frontend on `http://localhost:3000`
-- Backend API on `http://localhost:3001`
+   **Important:** Replace `<username>` and `<password>` in the connection string with your actual database user credentials.
 
-#### Option 2: Run Separately
+## Step 6: Run the Application
 
-Terminal 1 (Frontend):
+Express serves both the React app and API routes in a single server:
+
 ```bash
 npm run dev
 ```
 
-Terminal 2 (Backend):
-```bash
-npm run dev:server
-```
+This starts the Express server on `http://localhost:3000` which serves:
+- Your React application (with Vite dev mode in development)
+- All API routes (`/api/*`)
 
-### 4. Test the Integration
+## Step 7: Test the Connection
 
-1. Navigate to `http://localhost:3000/contact`
-2. Fill out the contact form
-3. Submit the form
-4. Check your MongoDB database - submissions will be stored in the `contact_submissions` collection in the `solarwatt` database
-
-## Database Structure
-
-Submissions are stored with the following schema:
-
-```javascript
-{
-  name: String,
-  email: String,
-  phone: String,
-  bill: Number,
-  submittedAt: Date,
-  status: String (default: 'new')
-}
-```
-
-## API Endpoints
-
-### POST `/api/contact/submit`
-Submits a contact form entry to MongoDB.
-
-**Request Body:**
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "+91 98765 43210",
-  "bill": "3000"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Form submitted successfully",
-  "id": "mongodb_document_id"
-}
-```
+1. Open your browser to `http://localhost:3000`
+2. Navigate to the Contact page
+3. Fill out and submit the contact form
+4. Check your terminal - you should see a success message
+5. Check MongoDB Atlas - go to **Database** > **Browse Collections** to see your submitted data
 
 ## Troubleshooting
 
-1. **Connection Error**: Make sure your `MONGODB_URI` is correct and your MongoDB instance is accessible
-2. **CORS Error**: Check that `FRONTEND_URL` in `.env` matches your frontend URL
-3. **Port Already in Use**: Change the `PORT` in `.env` if 3001 is already in use
+### Connection Error: "MONGODB_URI is not defined"
+- Make sure you've created a `.env` file (not just `.env.example`)
+- Verify the `.env` file is in the root directory
+- Restart your server after creating/updating `.env`
+
+### Connection Error: "Authentication failed"
+- Double-check your username and password in the connection string
+- Make sure you've created a database user in MongoDB Atlas
+- Verify the password doesn't contain special characters that need URL encoding
+
+### Connection Error: "IP not whitelisted"
+- Go to MongoDB Atlas > Network Access
+- Add your current IP address or use 0.0.0.0/0 for development
+
+### CORS Error in Browser
+- Since Express serves everything, CORS should not be an issue
+- If you see CORS errors, verify CORS is enabled in `server/index.js`
+
+## Production Deployment
+
+For production:
+1. Use environment variables provided by your hosting platform (Vercel, Heroku, etc.)
+2. Restrict MongoDB Network Access to your server's IP only
+3. Use a strong database password
+4. Consider using MongoDB connection pooling for better performance
+
+## Database Collections
+
+The application will automatically create a `contacts` collection in your database to store contact form submissions.
 

@@ -1,49 +1,50 @@
 import express from 'express';
-import { connectToDatabase } from '../db.js';
+import { getDatabase } from '../db/connection.js';
 
 const router = express.Router();
 
+// POST /api/contact - Submit contact form
 router.post('/submit', async (req, res) => {
   try {
     const { name, email, phone, bill } = req.body;
 
-    // Validate required fields
+    // Validation
     if (!name || !email || !phone || !bill) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'All fields are required' 
+      return res.status(400).json({
+        success: false,
+        message: 'All fields are required'
       });
     }
 
-    // Validate email format
+    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Invalid email format' 
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email address'
       });
     }
 
-    // Connect to database
-    const { db } = await connectToDatabase();
-    const collection = db.collection('contact_submissions');
+    // Get database
+    const db = getDatabase();
+    const collection = db.collection('contacts');
 
-    // Create submission document
-    const submission = {
+    // Create contact document
+    const contactData = {
       name: name.trim(),
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
       bill: parseFloat(bill),
-      submittedAt: new Date(),
+      createdAt: new Date(),
       status: 'new'
     };
 
-    // Insert into database
-    const result = await collection.insertOne(submission);
+    // Insert into MongoDB
+    const result = await collection.insertOne(contactData);
 
     res.status(201).json({
       success: true,
-      message: 'Form submitted successfully',
+      message: 'Contact form submitted successfully',
       id: result.insertedId
     });
 
@@ -51,7 +52,32 @@ router.post('/submit', async (req, res) => {
     console.error('Error submitting contact form:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to submit form. Please try again later.'
+      message: 'Internal server error. Please try again later.'
+    });
+  }
+});
+
+// GET /api/contact - Get all contacts (optional, for admin use)
+router.get('/', async (req, res) => {
+  try {
+    const db = getDatabase();
+    const collection = db.collection('contacts');
+    
+    const contacts = await collection
+      .find({})
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .toArray();
+
+    res.json({
+      success: true,
+      data: contacts
+    });
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching contacts'
     });
   }
 });
