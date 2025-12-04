@@ -7,16 +7,36 @@ const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', phone: '', bill: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/contact/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit form');
+      }
+
       setIsSuccess(true);
       setFormState({ name: '', email: '', phone: '', bill: '' });
-    }, 1500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
+      console.error('Form submission error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -36,6 +56,12 @@ const Contact: React.FC = () => {
                    <button onClick={() => setIsSuccess(false)} className="text-sm underline mt-4">Send another</button>
                 </div>
               ) : (
+                <>
+                  {error && (
+                    <div className="bg-red-50 text-red-700 p-4 rounded-xl border border-red-200 mb-6">
+                      <p className="font-medium">{error}</p>
+                    </div>
+                  )}
                 <form onSubmit={handleSubmit} className="space-y-6">
                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
@@ -87,6 +113,7 @@ const Contact: React.FC = () => {
                       Submit Request
                    </Button>
                 </form>
+                </>
               )}
            </div>
 
