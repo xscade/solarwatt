@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "esbuild": "^0.27.1",
     "express": "^5.2.1",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.555.0",
@@ -24,7 +25,6 @@
     "@types/node": "^22.14.0",
     "@vercel/node": "^5.5.14",
     "@vercel/static-build": "^2.8.13",
-    "esbuild": "^0.27.1",
     "typescript": "~5.8.2"
   }
 }
