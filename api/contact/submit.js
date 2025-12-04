@@ -103,9 +103,21 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error submitting contact form:', error);
+    
+    // Provide more specific error messages
+    let errorMessage = 'Failed to submit form. Please try again later.';
+    
+    if (error.message.includes('MONGODB_URI')) {
+      errorMessage = 'Database configuration error. Please contact support.';
+    } else if (error.message.includes('connect')) {
+      errorMessage = 'Unable to connect to database. Please try again later.';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
     return res.status(500).json({
       success: false,
-      error: 'Failed to submit form. Please try again later.'
+      error: errorMessage
     });
   }
 }
