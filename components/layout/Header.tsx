@@ -32,7 +32,7 @@ const Header: React.FC = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-0.5 group">
           <img 
-            src="https://storage.googleapis.com/client_files/solarwatt_energies/solarwat%20energy%20logo.png" 
+            src="https://storage.googleapis.com/clientmedia/Solar%20watt/solarwatt_energies_solarwat%20energy%20logo.png" 
             alt={`${BRAND_NAME} Logo`}
             className="h-auto w-20 mr-[10px] -my-2 -ml-2 group-hover:opacity-80 transition-opacity"
           />
