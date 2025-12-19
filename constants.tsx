@@ -6,9 +6,10 @@ import {
 import { Benefit, FAQItem, NavItem, ROIItem, ServiceItem, Testimonial } from './types';
 
 export const BRAND_NAME = "SOLARWAT ENERGY";
-export const PHONE_NUMBER = "+91 98765 43210";
-export const EMAIL_ADDRESS = "hello@solarwattenergy.com";
-export const ADDRESS = "123 Solar Park, Industrial Area, Mumbai, India";
+export const PHONE_NUMBER = "+91 93229 58795";
+export const PHONE_NUMBER_2 = "+91 99600 09231";
+export const EMAIL_ADDRESS = "solarwattenergy01@gmail.com";
+export const ADDRESS = "Plot No. 80, Manewada Rd, near Avdhut Mandir, Avdhut Nagar, Manewada, Nagpur, Maharashtra 440034";
 
 export const NAV_LINKS: NavItem[] = [
   { label: 'Home', path: '/' },
@@ -20,8 +21,8 @@ export const NAV_LINKS: NavItem[] = [
 ];
 
 export const TRUST_BADGES = [
-  "10+ Years Experience",
-  "5000+ Homes Solarized",
+  "MNRE Approved",
+  "5+ yr industry experience",
   "ISO 9001:2015 Certified",
   "Govt. Subsidy Approved"
 ];
@@ -85,7 +86,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: "What is the maintenance required?",
-    answer: "Solar systems require very little maintenance. Periodic cleaning of the panels (once every 2 weeks) to remove dust is usually sufficient to maintain peak generation."
+    answer: "Solar systems require very little maintenance. Periodic cleaning of the panels (once in a month) to remove dust is usually sufficient to maintain peak generation."
   }
 ];
 
@@ -166,21 +167,21 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Rajesh Kumar",
     role: "Homeowner",
-    location: "Pune",
+    location: "Nagpur",
     quote: "SolarWatt's team was incredibly professional. The installation of the 5kW system was done in 2 days. My bill dropped from ₹4000 to ₹150!",
     rating: 5
   },
   {
     name: "Amit Patel",
     role: "Business Owner",
-    location: "Ahmedabad",
+    location: "Nagpur",
     quote: "The ROI calculation they provided was spot on. The PPG guarantee gave me the confidence to invest in a 20kW system for my factory.",
     rating: 5
   },
   {
     name: "Sneha Reddy",
     role: "Architect",
-    location: "Hyderabad",
+    location: "Nagpur",
     quote: "Aesthetically pleasing installation. They respected the structure of the roof and the wiring is completely hidden. Highly recommended.",
     rating: 5
   }

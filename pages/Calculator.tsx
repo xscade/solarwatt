@@ -89,16 +89,16 @@ const Calculator: React.FC = () => {
     <div className="bg-light min-h-screen py-10 md:py-20">
       <div className="container mx-auto px-4 md:px-6">
         
-        <div className="text-center mb-12">
-            <h1 className="text-4xl font-extrabold text-dark mb-4">Calculate Your Solar Savings Now!</h1>
-            <p className="text-gray-600 text-lg">Unlock savings, build that dream fund, and start ticking off your checklist.</p>
+        <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-2xl md:text-4xl font-extrabold text-dark mb-3 md:mb-4">Calculate Your Solar Savings!</h1>
+            <p className="text-gray-600 text-sm md:text-lg px-2">Unlock savings, build that dream fund, and start ticking off your checklist.</p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-8 max-w-6xl mx-auto">
             
             {/* LEFT COLUMN: INPUTS */}
             <div className="lg:w-1/2">
-                <div className="bg-white p-8 rounded-3xl shadow-soft h-full">
+                <div className="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-soft h-full">
                     {/* Pincode */}
                     <div className="mb-10">
                         <label className="block text-sm font-bold text-gray-700 mb-2">Pin code</label>
@@ -158,21 +158,21 @@ const Calculator: React.FC = () => {
             <div className="lg:w-1/2 space-y-6">
                 
                 {/* 1. Required System Size */}
-                <div className="bg-white p-6 rounded-3xl shadow-card border border-gray-100">
-                    <h3 className="font-bold text-lg text-dark mb-4">Required System Size</h3>
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 bg-gray-50 p-4 rounded-2xl text-center">
-                            <div className="flex items-center justify-center gap-2 text-gray-500 text-xs uppercase font-bold mb-1">
-                                <Battery size={14} /> System Size
+                <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-card border border-gray-100">
+                    <h3 className="font-bold text-base md:text-lg text-dark mb-3 md:mb-4">Required System Size</h3>
+                    <div className="flex items-center justify-between gap-2 md:gap-4">
+                        <div className="flex-1 bg-gray-50 p-3 md:p-4 rounded-xl md:rounded-2xl text-center">
+                            <div className="flex items-center justify-center gap-1 md:gap-2 text-gray-500 text-[10px] md:text-xs uppercase font-bold mb-1">
+                                <Battery size={12} className="md:hidden" /><Battery size={14} className="hidden md:block" /> System
                             </div>
-                            <div className="text-2xl font-extrabold text-secondary">{results.systemSize} kW</div>
+                            <div className="text-xl md:text-2xl font-extrabold text-secondary">{results.systemSize} kW</div>
                         </div>
-                        <div className="w-px h-12 bg-gray-200"></div>
-                        <div className="flex-1 bg-gray-50 p-4 rounded-2xl text-center">
-                            <div className="flex items-center justify-center gap-2 text-gray-500 text-xs uppercase font-bold mb-1">
-                                <Sun size={14} /> Roof Area
+                        <div className="w-px h-10 md:h-12 bg-gray-200"></div>
+                        <div className="flex-1 bg-gray-50 p-3 md:p-4 rounded-xl md:rounded-2xl text-center">
+                            <div className="flex items-center justify-center gap-1 md:gap-2 text-gray-500 text-[10px] md:text-xs uppercase font-bold mb-1">
+                                <Sun size={12} className="md:hidden" /><Sun size={14} className="hidden md:block" /> Roof
                             </div>
-                            <div className="text-2xl font-extrabold text-dark">{results.roofArea} sq. ft.</div>
+                            <div className="text-xl md:text-2xl font-extrabold text-dark">{results.roofArea} sq.ft</div>
                         </div>
                     </div>
                     <div className="mt-4 text-center">
@@ -183,30 +183,30 @@ const Calculator: React.FC = () => {
                 </div>
 
                 {/* 2. Your Solar Savings */}
-                <div className="bg-white p-6 rounded-3xl shadow-card border border-gray-100">
-                    <h3 className="font-bold text-lg text-dark mb-4">Your Solar Savings</h3>
-                    <div className="flex items-center justify-between gap-4 mb-6">
+                <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-card border border-gray-100">
+                    <h3 className="font-bold text-base md:text-lg text-dark mb-3 md:mb-4">Your Solar Savings</h3>
+                    <div className="flex items-center justify-between gap-2 md:gap-4 mb-4 md:mb-6">
                          <div className="text-center flex-1">
-                             <p className="text-xs text-gray-500 font-bold mb-1">Monthly</p>
-                             <p className="text-2xl font-extrabold text-dark">{formatCurrency(results.monthlySavings)}</p>
+                             <p className="text-[10px] md:text-xs text-gray-500 font-bold mb-1">Monthly</p>
+                             <p className="text-lg md:text-2xl font-extrabold text-dark">{formatCurrency(results.monthlySavings)}</p>
                          </div>
-                         <div className="w-px h-10 bg-gray-200"></div>
+                         <div className="w-px h-8 md:h-10 bg-gray-200"></div>
                          <div className="text-center flex-1">
-                             <p className="text-xs text-gray-500 font-bold mb-1">Yearly</p>
-                             <p className="text-2xl font-extrabold text-dark">{formatCurrency(results.yearlySavings)}</p>
+                             <p className="text-[10px] md:text-xs text-gray-500 font-bold mb-1">Yearly</p>
+                             <p className="text-lg md:text-2xl font-extrabold text-dark">{formatCurrency(results.yearlySavings)}</p>
                          </div>
                     </div>
-                    <div className="bg-blue-50 p-4 rounded-xl text-center">
-                         <p className="text-sm text-secondary font-medium flex items-center justify-center gap-2">
-                             <CheckCircle size={16} /> We offer 25-year performance guarantee
+                    <div className="bg-blue-50 p-3 md:p-4 rounded-xl text-center">
+                         <p className="text-xs md:text-sm text-secondary font-medium flex items-center justify-center gap-1 md:gap-2">
+                             <CheckCircle size={14} className="md:hidden" /><CheckCircle size={16} className="hidden md:block" /> 25-year performance guarantee
                          </p>
                     </div>
                 </div>
 
                 {/* 3. Your Investment */}
-                <div className="bg-white p-6 rounded-3xl shadow-card border border-gray-100">
-                    <h3 className="font-bold text-lg text-dark mb-4">Your Investment</h3>
-                    <div className="space-y-3 text-sm">
+                <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-card border border-gray-100">
+                    <h3 className="font-bold text-base md:text-lg text-dark mb-3 md:mb-4">Your Investment</h3>
+                    <div className="space-y-2 md:space-y-3 text-xs md:text-sm">
                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                             <span className="text-gray-600 font-medium">Total cost of plant</span>
                             <span className="font-bold text-dark">{formatCurrency(results.totalCost)}</span>
@@ -215,9 +215,9 @@ const Calculator: React.FC = () => {
                             <span className="text-green-600 font-medium">Govt. Subsidy (Est.)</span>
                             <span className="font-bold text-green-600">-{formatCurrency(results.subsidy)}</span>
                         </div>
-                        <div className="flex justify-between items-center py-2 pt-3">
-                            <span className="text-dark font-extrabold text-lg">Net Cost</span>
-                            <span className="font-extrabold text-2xl text-dark">{formatCurrency(results.netCost)}</span>
+                        <div className="flex justify-between items-center py-2 pt-2 md:pt-3">
+                            <span className="text-dark font-extrabold text-base md:text-lg">Net Cost</span>
+                            <span className="font-extrabold text-xl md:text-2xl text-dark">{formatCurrency(results.netCost)}</span>
                         </div>
                     </div>
                 </div>
@@ -226,14 +226,14 @@ const Calculator: React.FC = () => {
         </div>
 
         {/* Floating Bottom Bar or CTA Section */}
-        <div className="max-w-4xl mx-auto mt-12 bg-secondary text-white p-6 md:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="max-w-4xl mx-auto mt-8 md:mt-12 bg-secondary text-white p-5 md:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 shadow-xl">
              <div className="text-center md:text-left">
-                 <p className="text-blue-200 text-sm font-bold uppercase tracking-wide mb-1">Expert Consultation</p>
-                 <h3 className="text-xl md:text-2xl font-bold">Have questions about the subsidy?</h3>
+                 <p className="text-blue-200 text-xs md:text-sm font-bold uppercase tracking-wide mb-1">Expert Consultation</p>
+                 <h3 className="text-lg md:text-2xl font-bold">Have questions about the subsidy?</h3>
              </div>
-             <Link to="/contact">
+             <Link to="/contact" className="w-full md:w-auto">
                 <Button variant="white" className="w-full md:w-auto">
-                    Book a Free Consultation <ArrowRight size={18} className="ml-2" />
+                    Book Free Consultation <ArrowRight size={16} className="ml-1 md:ml-2" />
                 </Button>
              </Link>
         </div>

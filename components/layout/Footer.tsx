@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
-import { BRAND_NAME, ADDRESS, PHONE_NUMBER, EMAIL_ADDRESS, NAV_LINKS } from '../../constants';
+import { BRAND_NAME, ADDRESS, PHONE_NUMBER, PHONE_NUMBER_2, EMAIL_ADDRESS, NAV_LINKS, SERVICES } from '../../constants';
 
 const Footer: React.FC = () => {
   return (
@@ -22,11 +22,38 @@ const Footer: React.FC = () => {
               Empowering homes and businesses with premium, high-efficiency solar solutions. Join the renewable revolution today.
             </p>
             <div className="flex gap-4">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
-                <a key={idx} href="#" className="bg-white/10 p-2 rounded-full hover:bg-primary transition-colors">
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a 
+                href="https://www.instagram.com/solarwattenergy.in?igsh=cmdkbjZtcTM0dGFx" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white/10 p-2 rounded-full hover:bg-primary transition-colors"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram size={18} />
+              </a>
+              <a 
+                href="https://www.facebook.com/solarwattenergy.in" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white/10 p-2 rounded-full hover:bg-primary transition-colors"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook size={18} />
+              </a>
+              <a 
+                href="#" 
+                className="bg-white/10 p-2 rounded-full hover:bg-primary transition-colors"
+                aria-label="Follow us on Twitter"
+              >
+                <Twitter size={18} />
+              </a>
+              <a 
+                href="#" 
+                className="bg-white/10 p-2 rounded-full hover:bg-primary transition-colors"
+                aria-label="Follow us on LinkedIn"
+              >
+                <Linkedin size={18} />
+              </a>
             </div>
           </div>
 
@@ -55,11 +82,14 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-bold mb-6 border-b border-blue-400/30 pb-2 inline-block">Our Services</h3>
             <ul className="space-y-3">
-              <li className="text-blue-100">Residential Solar</li>
-              <li className="text-blue-100">Commercial Solutions</li>
-              <li className="text-blue-100">Industrial Projects</li>
-              <li className="text-blue-100">Maintenance (AMC)</li>
-              <li className="text-blue-100">Shadow Analysis</li>
+              {SERVICES.map(service => (
+                <li key={service.slug}>
+                  <Link to={`/services/${service.slug}`} className="text-blue-100 hover:text-primary transition-colors flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -69,15 +99,18 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-blue-100">
                 <MapPin className="shrink-0 text-primary mt-1" size={18} />
-                <span>{ADDRESS}</span>
+                <span className="text-sm md:text-base leading-relaxed">{ADDRESS}</span>
               </li>
-              <li className="flex items-center gap-3 text-blue-100">
-                <Phone className="shrink-0 text-primary" size={18} />
-                <a href={`tel:${PHONE_NUMBER}`} className="hover:text-white">{PHONE_NUMBER}</a>
+              <li className="flex items-start gap-3 text-blue-100">
+                <Phone className="shrink-0 text-primary mt-0.5" size={18} />
+                <div className="flex flex-col text-sm md:text-base">
+                  <a href={`tel:${PHONE_NUMBER}`} className="hover:text-white">{PHONE_NUMBER}</a>
+                  <a href={`tel:${PHONE_NUMBER_2}`} className="hover:text-white">{PHONE_NUMBER_2}</a>
+                </div>
               </li>
-              <li className="flex items-center gap-3 text-blue-100">
-                <Mail className="shrink-0 text-primary" size={18} />
-                <a href={`mailto:${EMAIL_ADDRESS}`} className="hover:text-white">{EMAIL_ADDRESS}</a>
+              <li className="flex items-start gap-3 text-blue-100">
+                <Mail className="shrink-0 text-primary mt-0.5" size={18} />
+                <a href={`mailto:${EMAIL_ADDRESS}`} className="hover:text-white text-sm md:text-base break-all">{EMAIL_ADDRESS}</a>
               </li>
             </ul>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
-import { NAV_LINKS, BRAND_NAME, PHONE_NUMBER } from '../../constants';
+import { NAV_LINKS, BRAND_NAME, PHONE_NUMBER, PHONE_NUMBER_2 } from '../../constants';
 import Button from '../ui/Button';
 
 const Header: React.FC = () => {

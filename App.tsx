@@ -10,6 +10,7 @@ import Calculator from './pages/Calculator';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Privacy from './pages/Privacy';
 
 // Service Pages
 import ResidentialSolar from './pages/ResidentialSolar';
@@ -76,6 +77,7 @@ const AppContent = () => {
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/products" element={<Products />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
           
           {/* Admin Routes */}
           <Route path="/login" element={<Login />} />
